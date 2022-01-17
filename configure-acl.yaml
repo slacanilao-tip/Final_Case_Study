@@ -1,0 +1,23 @@
+---
+- name: Configure ACL on R2
+  hosts: R2
+  gather_facts: false
+  connection: local
+
+  tasks:
+   - name: Configure ACL to permit SSH, DHCP access and deny any
+     ios_config:
+       authorize: yes
+       lines:
+         - ip access-list extended PERMIT-HOST
+         - permit tcp host 192.168.2.2 any eq 22
+         - permit udp any eq bootpc any eq bootps
+         - deny ip 192.168.1.0 0.0.0.255 any
+
+   - name: Create inbound and outbound
+     ios_config:
+       parents: interface F0/0
+       lines:
+         - ip access-group PERMIT-HOST in
+         
+

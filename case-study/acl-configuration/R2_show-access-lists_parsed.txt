@@ -1,0 +1,120 @@
+{
+  "PERMIT-HOST": {
+    "aces": {
+      "10": {
+        "actions": {
+          "forwarding": "permit",
+          "logging": "log-none"
+        },
+        "matches": {
+          "l3": {
+            "ipv4": {
+              "destination_network": {
+                "any": {
+                  "destination_network": "any"
+                }
+              },
+              "protocol": "tcp",
+              "source_network": {
+                "host 192.168.2.2": {
+                  "source_network": "host 192.168.2.2"
+                }
+              }
+            }
+          },
+          "l4": {
+            "tcp": {
+              "destination_port": {
+                "operator": {
+                  "operator": "eq",
+                  "port": 22
+                }
+              },
+              "established": false
+            }
+          }
+        },
+        "name": "10",
+        "statistics": {
+          "matched_packets": 25
+        }
+      },
+      "20": {
+        "actions": {
+          "forwarding": "permit",
+          "logging": "log-none"
+        },
+        "matches": {
+          "l3": {
+            "ipv4": {
+              "destination_network": {
+                "any": {
+                  "destination_network": "any"
+                }
+              },
+              "protocol": "udp",
+              "source_network": {
+                "any": {
+                  "source_network": "any"
+                }
+              }
+            }
+          },
+          "l4": {
+            "udp": {
+              "destination_port": {
+                "operator": {
+                  "operator": "eq",
+                  "port": 67
+                }
+              },
+              "established": false,
+              "source_port": {
+                "operator": {
+                  "operator": "eq",
+                  "port": "bootpc"
+                }
+              }
+            }
+          }
+        },
+        "name": "20",
+        "statistics": {
+          "matched_packets": 2
+        }
+      },
+      "30": {
+        "actions": {
+          "forwarding": "deny",
+          "logging": "log-none"
+        },
+        "matches": {
+          "l3": {
+            "ipv4": {
+              "destination_network": {
+                "any": {
+                  "destination_network": "any"
+                }
+              },
+              "protocol": "ipv4",
+              "source_network": {
+                "192.168.1.0 0.0.0.255": {
+                  "source_network": "192.168.1.0 0.0.0.255"
+                }
+              }
+            }
+          },
+          "l4": {
+            "ipv4": {
+              "established": false
+            }
+          }
+        },
+        "name": "30"
+      }
+    },
+    "name": "PERMIT-HOST",
+    "type": "ipv4-acl-type"
+  },
+  "_exclude": []
+}

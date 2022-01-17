@@ -1,0 +1,7 @@
++++ R2: executing command 'show access-lists' +++
+show access-lists
+Extended IP access list PERMIT-HOST
+    10 permit tcp host 192.168.2.2 any eq 22 (25 matches)
+    20 permit udp any eq bootpc any eq bootps (2 matches)
+    30 deny ip 192.168.1.0 0.0.0.255 any
+R2#

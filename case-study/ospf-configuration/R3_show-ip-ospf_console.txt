@@ -1,0 +1,4 @@
++++ R3: executing command 'show ip ospf' +++
+show ip ospf
+
+R3#

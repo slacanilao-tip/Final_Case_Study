@@ -1,0 +1,73 @@
+---
+- name: Configure DHCP Pool on R3
+  hosts: R3
+  gather_facts: false
+  connection: local
+
+  tasks:
+   - name: Exclude first 10 addresses
+     ios_config:
+       authorize: yes
+       lines:
+        - ip dhcp excluded-address 192.168.1.1 192.168.1.10
+        - ip dhcp excluded-address 192.168.2.1 192.168.2.10
+
+- name: Configure DHCP Pool on R3 for R1
+  hosts: R3
+  gather_facts: false
+  connection: local
+
+  tasks:
+   - name: Create DHCP pool
+     ios_config:
+       authorize: yes
+       lines:
+        - ip dhcp pool R1
+        - network 192.168.1.0 255.255.255.0
+        - default-router 192.168.1.1
+
+- name: Configure DHCP Pool on R3 for R2
+  hosts: R3
+  gather_facts: false
+  connection: local
+
+  tasks:
+   - name: Create DHCP pool
+     ios_config:
+       authorize: yes
+       lines:
+        - ip dhcp pool R2
+        - network 192.168.2.0 255.255.255.0
+        - default-router 192.168.2.1
+
+- name: Configure R1 as DHCP relay agent
+  hosts: R1
+  gather_facts: false
+  connection: local
+
+  tasks:
+   - name: Configure R1 as relay agent
+     ios_config:
+       authorize: yes
+       parents: interface f0/0
+       lines:
+        - ip helper-address 10.0.1.2
+
+- name: Configure R2 as DHCP relay agent
+  hosts: R2
+  gather_facts: false
+  connection: local
+
+  tasks:
+   - name: Configure R2 as relay agent
+     ios_config:
+       authorize: yes
+       parents: interface f0/0
+       lines:
+        - ip helper-address 10.0.2.2
+
+
+
+
+
+        
